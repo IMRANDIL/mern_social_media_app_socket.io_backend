@@ -32,16 +32,13 @@ exports.updateUser = asyncHandler(async (req, res) => {
 
     //now...updating user....
 
-    if (isUserExist.isAdmin) {
+    if (isUserExist || isUserExist.isAdmin) {
         let { password } = req.body;
 
         if (password) {
             const salt = await bcrypt.genSalt(12);
             password = await bcrypt.hash(password, salt);
 
-        } else {
-            res.status(400);
-            throw new Error('Invalid credentials')
         }
 
         //find the user and update....
