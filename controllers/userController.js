@@ -14,10 +14,7 @@ exports.updateUser = asyncHandler(async (req, res) => {
     const { id } = req.params;
 
 
-    if (!id) {
-        res.status(400);
-        throw new Error('Id required')
-    }
+
     //find the specifc user in the database....
 
     const isUserExist = await User.findOne({ _id: id }).exec();
@@ -33,11 +30,11 @@ exports.updateUser = asyncHandler(async (req, res) => {
     //now...updating user....
 
     if (isUserExist || isUserExist.isAdmin) {
-        let { password } = req.body;
 
-        if (password) {
+
+        if (req.body.password) {
             const salt = await bcrypt.genSalt(12);
-            password = await bcrypt.hash(password, salt);
+            req.body.password = await bcrypt.hash(req.body.password, salt);
 
         }
 
