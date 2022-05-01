@@ -27,6 +27,19 @@ exports.updateUser = asyncHandler(async (req, res) => {
     }
 
 
+
+    //check for authentication of logged in user..jwt authent..
+
+    if (isUserExist._id.toString() !== req.user._id.toString()) {
+        res.status(401);
+        throw new Error('You are not authorized to modify!')
+    }
+
+
+
+
+
+
     //now...updating user....
 
     if (isUserExist || isUserExist.isAdmin) {
